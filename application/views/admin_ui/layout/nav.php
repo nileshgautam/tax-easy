@@ -135,6 +135,21 @@
                     <li class="nav-divider">
                         Features
                     </li>
+                    <!-- for admin -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fa fa-fw  fa-user-circle"></i> Enquiry </a>
+                        <div id="submenu-5" class="collapse submenu">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo base_url('new-enquiry')?>">New</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo base_url('show-enquiry') ?>">Show All</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fa fa-fw  fa-user-circle"></i> Users </a>
                         <div id="submenu-6" class="collapse submenu">
@@ -149,9 +164,9 @@
                             </ul>
                         </div>
                     </li>
-                    <!-- <li class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-7" aria-controls="submenu-7"><i class="fas fa-fw fa-file"></i> ITR &nbsp;<small>(Yearly)</small></a>
-                        <div id="submenu-7" class="collapse submenu" style="">
+                        <div id="submenu-7" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Enquiry</a>
@@ -176,7 +191,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li> -->
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-9" aria-controls="submenu-9"><i class="fas fa-fw fa-bell"></i>Notification</small> </a>
                         <div id="submenu-9" class="collapse submenu">
@@ -188,6 +203,21 @@
                                     <a class="nav-link" href="<?php echo base_url('notification') ?>">Show All
                                     </a>
                                 </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- For users -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-10" aria-controls="submenu-10"><i class="fa fa-fw  fa-user-circle"></i> Services </a>
+                        <div id="submenu-10" class="collapse submenu">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo base_url('new-service') ?>">New</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="<?php echo base_url('show-services') ?>">Show all</a>
+                                </li>
+
                             </ul>
                         </div>
                     </li>

@@ -36,3 +36,13 @@ function uploadData($arr = null, $path = null)
 }
 // function to remove file
 
+function makeuserid($useremail)
+{
+    $user_id = 'u-';
+    $count_id_char = strripos($useremail, '@');
+    for ($i = 0; $i < $count_id_char; $i++) {
+        $user_id .= $useremail[$i];
+    }
+    return $user_id;
+}
+

@@ -45,8 +45,6 @@ class Auth extends REST_Controller
         // form validation for inputs
         $this->form_validation->set_rules("email", "Email", "required|valid_email");
         $this->form_validation->set_rules("password", "Password", "required");
-
-
         // checking form submittion have any error or not
         if ($this->form_validation->run() === FALSE) {
             // we have some errors
@@ -61,22 +59,24 @@ class Auth extends REST_Controller
                     "email" => $email,
                     "password" => hash('sha512', $password),
                 );
+                // echo '<pre>';
+                // print_r($condition);die;
+
                 $table = 'users';
                 $isValid = $this->main_model->get_where($table, $condition);
                 if ($isValid) {
                     $tokenData['email'] = $email;
                     $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
                     $jwtToken = $this->objOfJwt->GenerateToken($tokenData);
-
                     $information = array(
                         "auth_key" => $jwtToken,
                         "last_login" => date("Y-m-d H:i:s"),
                     );
 
                     $isUpdate = $this->auth_model->update_admin_information($condition, $information);
-
                     if ($isUpdate) {
                         $userdata = array(
+                            'userid' => $isValid[0]['userid'],
                             'avatar' => $isValid[0]['avatar'],
                             'name' => $isValid[0]['username'],
                             'email' => $isValid[0]['email'],
@@ -84,7 +84,6 @@ class Auth extends REST_Controller
                         );
 
                         $this->session->set_userdata($userdata);
-
                         $this->response(array(
                             "status" => 1,
                             "message" => "login success",
@@ -116,9 +115,7 @@ class Auth extends REST_Controller
     public function send_password_reset_post()
     {
         $email = $this->security->xss_clean($this->input->post("email"));
-
-        $table = 'tbl_admin';
-
+        $table = 'users';
         $condition = array('login_id' => $email);
 
         $data = $this->main_model->get_where($table, $condition);
@@ -163,8 +160,6 @@ class Auth extends REST_Controller
     {
 
         $id = $this->security->xss_clean($this->input->post("id"));
-        // print_r($id);
-        // die;
         if ($id == '') {
             $this->response(array(
                 "status" => 0,

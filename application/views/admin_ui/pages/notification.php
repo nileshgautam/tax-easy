@@ -5,11 +5,11 @@
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-6">
-                <h2 class="pageheader-title">Notification Administration</h2>
+                    <h2 class="pageheader-title">Notification Administration</h2>
                 </div>
-                <div class="col-sm-6"><a href="<?php echo base_url('new-notice')?>" class="btn btn-outline-primary btn-sm float-right">New</a></div>
+                <div class="col-sm-6"><a href="<?php echo base_url('new-notice') ?>" class="btn btn-outline-primary btn-sm float-right">New</a></div>
             </div>
-           
+
 
             <div class="page-breadcrumb">
                 <nav aria-label="breadcrumb">
@@ -34,44 +34,22 @@
 
             <div class="card-body">
                 <div class="">
-                    <table class="table table-striped table-bordered  datatable">
+                    <table class="table table-striped table-bordered" id="notification-tbody">
                         <thead>
                             <tr>
                                 <th>Notification</th>
                                 <th>Notify Date</th>
-                                <th></th>
-
-
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-
-                            </tr>
-                            <tr>
-                                <td>Garrett Winters</td>
-                                <td>Accountant</td>
-                                <td>Tokyo</td>
-
-
-                            </tr>
-                            <tr>
-                                <td>Ashton Cox</td>
-                                <td>Junior Technical Author</td>
-                                <td>San Francisco</td>
-
-                            </tr>
-
+                         
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-
+                                <th>Notification</th>
+                                <th>Notify Date</th>
+                                <th>Action</th>
                             </tr>
                         </tfoot>
                     </table>

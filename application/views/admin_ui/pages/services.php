@@ -7,7 +7,7 @@
                                 <div class="col-sm-6">
                                     <h2 class="pageheader-title">Customers Administration</h2>
                                 </div>
-                                <div class="col-sm-6"><a href="<?php echo base_url('new-customer') ?>" class="btn btn-outline-primary btn-sm float-right">New</a></div>
+                                <div class="col-sm-6"><a href="<?php echo base_url('new-customer')?>" class="btn btn-outline-primary btn-sm float-right">New</a></div>
                             </div>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
@@ -35,26 +35,50 @@
 
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered first" id="customers-table">
+                                    <table class="table table-striped table-bordered first datatable">
                                         <thead>
                                             <tr>
                                                 <th>Profile</th>
                                                 <th>Name</th>
-                                                <th>Email</th>
                                                 <th>Phone</th>
-                                                <th>Status</th>
+                                                <th>Email</th>
                                                 <th></th>
 
                                             </tr>
                                         </thead>
-                                        <tbody></tbody>
+                                        <tbody>
+                                            <tr>
+                                                <td>Tiger Nixon</td>
+                                                <td>System Architect</td>
+                                                <td>Edinburgh</td>
+                                                <td>61</td>
+                                                <td>2011/04/25</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Garrett Winters</td>
+                                                <td>Accountant</td>
+                                                <td>Tokyo</td>
+                                                <td>63</td>
+                                                <td>63</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Ashton Cox</td>
+                                                <td>Junior Technical Author</td>
+                                                <td>San Francisco</td>
+                                                <td>66</td>
+                                                <td>63</td>
+
+                                            </tr>
+
+                                        </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th>Profile</th>
                                                 <th>Name</th>
-                                                <th>Email</th>
                                                 <th>Phone</th>
-                                                <th>Status</th>
+                                                <th>Email</th>
                                                 <th></th>
                                             </tr>
                                         </tfoot>

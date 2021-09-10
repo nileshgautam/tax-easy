@@ -9,6 +9,19 @@ class Main_model extends CI_Model
     $this->load->database();
   }
 
+  public function getNewIDorNo($tableName, $prefix = "", $pad_length = 3)
+	{
+		$id = 0;
+		$row = $this->db->query("SELECT max(id) as maxid  FROM " . $tableName)->row();
+		if ($row) {
+			$id = $row->maxid;
+		}
+		$id++;
+		$Id = strtoupper($prefix . date('y') . date('m') . date('d') . str_pad($id, $pad_length, '0', STR_PAD_LEFT));
+
+		return $Id; // $maxid==NULL?1:$maxid+1;
+	}
+
 
   public function get_count_where($tableName = null, $condition = null)
   {
