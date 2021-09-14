@@ -66,3 +66,7 @@ $route['new-service'] = 'Users/service_form';
 $route['show-services'] = 'Users/services';
 $route['new-enquiry'] = 'Users/enquiry_form';
 $route['show-enquiry'] = 'Users/enquiry';
+$route['gst-filing'] = 'Users/gst';
+$route['itr-filing'] = 'Users/itr';
+// $route['edit-details/(:any)'] = 'Users/new_customers/$1';
+$route['subadmin-form/(:any)'] = 'Users/subadmin_form/$1';

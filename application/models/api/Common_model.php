@@ -46,7 +46,10 @@ class Common_model extends CI_Model
   public function update_table($tableName = null, $data = null, $condition = null)
   {
     $this->db->where($condition);
-    $this->db->update($tableName, $data);
+
+    $res=$this->db->update($tableName, $data);
+    print_r($res);die;
+
     return $this->db->affected_rows() ? TRUE : FALSE;
   }
   
@@ -57,13 +60,29 @@ class Common_model extends CI_Model
       $db_error = $this->db->error();
       if (!empty($db_error)) {
         throw new Exception('Database error! Error Code [' . $db_error['code'] . '] Error: ' . $db_error['message']);
-        // print_r($db_error);
         return $db_error; // unreachable retrun statement !!!
       } else {
         return TRUE;
       }
     } catch (Exception $e) {
-      //throw $th;
+      log_message('error: ', $e->getMessage());
+      return $db_error;
+    }
+  }
+
+  public function delete($tableName = null, $condition = null)
+  {
+    try {
+      $this->db->delete($tableName, $condition);
+      $db_error = $this->db->error();
+      if (!empty($db_error)) {
+        throw new Exception('Database error! Error Code [' . $db_error['code'] . '] Error: ' . $db_error['message']);
+        print_r($db_error);die;
+        return $db_error; // unreachable retrun statement !!!
+      } else {
+        return TRUE;
+      }
+    } catch (Exception $e) {
       log_message('error: ', $e->getMessage());
       return $db_error;
     }

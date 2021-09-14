@@ -42,7 +42,7 @@ class Subadmin extends REST_Controller
   }
 
   public function insert_post()
-  {   
+  {
     $password = $this->security->xss_clean($this->input->post("password"));
     $email = $this->security->xss_clean($this->input->post("email"));
     $first_name = $this->security->xss_clean($this->input->post("fname"));
@@ -65,10 +65,15 @@ class Subadmin extends REST_Controller
       if ($this->common_model->get_data_where('users', array('email' => $email))) {
         $this->response(array(
           "status" => 409,
-          "message" =>  "'".$email. "' is already exists",
+          "message" =>  "'" . $email . "' is already exists",
+        ), REST_Controller::HTTP_CONFLICT);
+      } else if ($this->common_model->get_data_where('users', array('mobile' => $mobile))) {
+        $this->response(array(
+          "status" => 409,
+          "message" =>  "'" . $mobile . "' mobile number is already exists.",
         ), REST_Controller::HTTP_CONFLICT);
       } else {
-        $userid = $this->main_model->getNewIDorNo('users', "SBA");
+        $userid = $this->main_model->getNewIDorNo('users', "CST");
         $formdata = array(
           'userid' => $userid,
           'username' => makeuserid($email),
@@ -81,11 +86,11 @@ class Subadmin extends REST_Controller
           'status' => 1,
           'created_datetime' => date('Y-m-d h:i:s')
         );
-        $is_inserted=$this->common_model->insert_data('users', $formdata);
+        $is_inserted = $this->common_model->insert_data('users', $formdata);
         if ($is_inserted) {
           $this->response(array(
             "status" => 200,
-            "message" => "Created sub-admin."
+            "message" => "Sub-admin Created."
           ), REST_Controller::HTTP_OK);
         } else {
           $this->response(array(
@@ -97,11 +102,68 @@ class Subadmin extends REST_Controller
     }
   }
 
+  public function update_post()
+  {
+    $id = $this->security->xss_clean($this->input->post("userid"));
+    $email = $this->security->xss_clean($this->input->post("email"));
+    $first_name = $this->security->xss_clean($this->input->post("fname"));
+    $last_name = $this->security->xss_clean($this->input->post("lname"));
+    $mobile = $this->security->xss_clean($this->input->post("mobile"));
+
+    $this->form_validation->set_rules("fname", "First name", "required");
+    $this->form_validation->set_rules("email", "Email", "required");
+    $this->form_validation->set_rules("mobile", "Mobile", "required");
+
+
+    // checking form submittion have any error or not
+    if ($this->form_validation->run() === FALSE) {
+      // we have some errors
+      $this->response(array(
+        "status" => 400,
+        "message" => "First name, password and email are required"
+      ), REST_Controller::HTTP_BAD_REQUEST);
+    } else {
+      // Check unique 
+      if ($this->common_model->get_data_where('users', array('email' => $email))) {
+        $this->response(array(
+          "status" => 409,
+          "message" =>  "'" . $email . "' is already exists",
+        ), REST_Controller::HTTP_CONFLICT);
+      } else if ($this->common_model->get_data_where('users', array('mobile' => $mobile))) {
+        $this->response(array(
+          "status" => 409,
+          "message" =>  "'" . $mobile . "' mobile number is already exists.",
+        ), REST_Controller::HTTP_CONFLICT);
+      } else {
+        $condition = array('userid' => $id);
+        $formdata = array(
+          'first_name' => $first_name,
+          'last_name' => $last_name,
+          'email' => $email,
+          'mobile' => $mobile,
+          'updated_datetime' => date('Y-m-d h:i:s')
+        );
+        $is_inserted = $this->common_model->update_table('users', $condition, $formdata);
+        if ($is_inserted) {
+          $this->response(array(
+            "status" => 200,
+            "message" => "Sub-admin updated."
+          ), REST_Controller::HTTP_OK);
+        } else {
+          $this->response(array(
+            "status" => 500,
+            "message" => "updatation failure,Internal server error, Please contact your service provider.",
+          ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+      }
+    }
+  }
+
   public function delete_post()
   {
 
     $id = $this->security->xss_clean($this->input->post("id"));
- 
+
     // checking form submittion have any error or not
     if (!$id) {
       // we have some errors
@@ -111,10 +173,10 @@ class Subadmin extends REST_Controller
       ), REST_Controller::HTTP_NOT_FOUND);
     } else {
       $condition = array('id' => $id);
-      $res = $this->common_model->update_table('users',array('is_deleted'=>true), $condition);
+      $res = $this->common_model->update_table('users', array('is_deleted' => true), $condition);
       if ($res) {
         $this->response(array(
-          "status" => 1,
+          "status" => 200,
           "message" => "Sub-admin deleted",
         ), REST_Controller::HTTP_OK);
       } else {
@@ -125,5 +187,4 @@ class Subadmin extends REST_Controller
       }
     }
   }
-  
 }

@@ -12,31 +12,30 @@
             }
         });
         // function load notification
-        const showRow = (dataArr) => {
+        const showRow = (dataArr = null) => {
             let data = [];
-            console.log(dataArr);
-            if (dataArr) {
+            if (dataArr != null) {
                 dataArr.forEach(i => {
-                    // let cdate = nt.created_datetime;
-                    // cd = cdate.split(" ");
-                    // date = cd[0].split("-").reverse().join("/");
-
-                    let action=`<td class="text-right">
+                    let action = `<td class="text-right">
+                    <a class="btn btn-primary btn-sm" href="${BASEURL+'subadmin-form/'+ btoa(i.id)}" id=${i.id}>
+                          <i class="fas fa-edit">
+                          </i>
+                        </a>
                         <a class="btn btn-danger btn-sm delete-subadmin" href="#" id=${i.id}>
                           <i class="fas fa-trash">
                           </i>
                         </a>
                       </td>`;
-                      let name= i.first_name +' '+i.last_name;
-                    row=[i.username,name,i.email,i.mobile,action];
+                    let name = i.first_name + ' ' + i.last_name;
+                    row = [i.username, name, i.email, i.mobile, action];
                     data.push(row)
 
                 });
             }
             $("#subadmin-table").dataTable().fnDestroy()
             $('#subadmin-table').dataTable({
-                aaData: data,           
-             });
+                aaData: data,
+            });
         }
 
         const loadSubAdmin = () => {
@@ -45,10 +44,9 @@
                 let dataArr = data.data;
                 showRow(dataArr);
             }).fail(function(jqxhr, data) {
-                console.log(jqxhr);
+                showRow();
             });
         }
-
         loadSubAdmin();
 
         $('body').on('click', '.delete-subadmin', function() {
@@ -70,16 +68,14 @@
                 return false;
             }
         });
-
-
         // Save subadmin;
         $('#subadmin-form').on('submit', function(e) {
             e.preventDefault();
             let formData = $(this).serialize();
-            console.log(error);
             if (!error) {
-                let url = '<?php echo base_url('api/Subadmin/insert') ?>';
+                let url = ($('#userid').val()=='')?BASEURL+'api/Subadmin/insert':BASEURL+'api/Subadmin/update';
                 $.post(url, formData).done(function(data) {
+                  
                     let notification = `<div class="alert alert-success alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <strong>Success!</strong> ${data.message}.

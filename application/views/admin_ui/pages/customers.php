@@ -7,7 +7,7 @@
                                 <div class="col-sm-6">
                                     <h2 class="pageheader-title">Customers Administration</h2>
                                 </div>
-                                <div class="col-sm-6"><a href="<?php echo base_url('new-customer') ?>" class="btn btn-outline-primary btn-sm float-right">New</a></div>
+                                <!-- <div class="col-sm-6"><a href="<?php //echo base_url('new-customer') ?>" class="btn btn-outline-primary btn-sm float-right">New</a></div> -->
                             </div>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">
@@ -66,4 +66,33 @@
                     <!-- ============================================================== -->
                     <!-- end basic table  -->
                     <!-- ============================================================== -->
+                </div>
+
+
+                <!-- for assign to subadmin -->
+                <!-- Modal -->
+                <div class="modal fade" id="assignUser" tabindex="-1" role="dialog" aria-labelledby="assignUserTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="assignUserLongTitle">Assign to Sub admin</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="error_assign" style="display: none;">
+
+                                </div>
+                              <select name="select-subadmin" id="select-subadmin" class="form-control">
+                                <option value="">Select sub admin</option>
+                              </select>
+                              <input type="hidden" name="hidden_customer_id" id="hidden_customer_id">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn assign-to-subadmin-submitbtn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>

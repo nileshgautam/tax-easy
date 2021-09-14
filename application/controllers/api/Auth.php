@@ -6,16 +6,13 @@ require APPPATH . '/libraries/CreatorJwt.php';
 
 class Auth extends REST_Controller
 {
-
     public function __construct()
     {
-
         parent::__construct();
         //load database
         date_default_timezone_set("Asia/Kolkata");
         $this->objOfJwt = new CreatorJwt();
         header('Content-Type: application/json');
-
         $this->load->database();
         $this->load->model(array("api/auth_model", "api/main_model"));
         $this->load->library(array("form_validation"));
@@ -35,7 +32,6 @@ class Auth extends REST_Controller
         $html .= $this->load->view('admin_ui/emailtemplate/reset-link', $data, true);
         return $html;
     }
-
 
     public function verify_post()
     {
@@ -58,9 +54,9 @@ class Auth extends REST_Controller
                 $condition = array(
                     "email" => $email,
                     "password" => hash('sha512', $password),
+                    "is_deleted" => 0
                 );
-                // echo '<pre>';
-                // print_r($condition);die;
+
 
                 $table = 'users';
                 $isValid = $this->main_model->get_where($table, $condition);
@@ -100,6 +96,79 @@ class Auth extends REST_Controller
                     $this->response(array(
                         "status" => 0,
                         "message" => "Email and password did not match."
+                    ), REST_Controller::HTTP_NOT_FOUND);
+                }
+            } else {
+                // we have some empty field
+                $this->response(array(
+                    "status" => 0,
+                    "message" => "All fields are needed"
+                ), REST_Controller::HTTP_NOT_FOUND);
+            }
+        }
+    }
+    // verify users
+    public function signin_post()
+    {
+        // collecting form data inputs
+        $mobile = $this->security->xss_clean($this->input->post("mobile"));
+        $password = $this->security->xss_clean($this->input->post("password"));
+        // form validation for inputs
+        $this->form_validation->set_rules("mobile", "mobile", "required");
+        $this->form_validation->set_rules("password", "password", "required");
+        // checking form submittion have any error or not
+        if ($this->form_validation->run() === FALSE) {
+            // we have some errors
+            $this->response(array(
+                "status" => 0,
+                "message" => "All fields are needed"
+            ), REST_Controller::HTTP_NOT_FOUND);
+        } else {
+            if (!empty($mobile) && !empty($password)) {
+                // all values are available
+                $condition = array(
+                    "mobile" => $mobile,
+                    "password" => hash('sha512', $password),
+                    "is_deleted" => 0
+                );
+                $table = 'users';
+                $isValid = $this->main_model->get_where($table, $condition);
+                if ($isValid) {
+                    $tokenData['email'] = $mobile;
+                    $tokenData['timeStamp'] = Date('Y-m-d h:i:s');
+                    $jwtToken = $this->objOfJwt->GenerateToken($tokenData);
+                    $information = array(
+                        "auth_key" => $jwtToken,
+                        "last_login" => date("Y-m-d H:i:s"),
+                    );
+
+                    $isUpdate = $this->auth_model->update_admin_information($condition, $information);
+                    if ($isUpdate) {
+                        $userdata = array(
+                            'userid' => $isValid[0]['userid'],
+                            'avatar' => $isValid[0]['avatar'],
+                            'name' => $isValid[0]['username'],
+                            'email' => $isValid[0]['email'],
+                            'auth_key' => $jwtToken
+                        );
+
+                        $this->session->set_userdata($userdata);
+                        $this->response(array(
+                            "status" => 1,
+                            "message" => "signin success",
+                            "tocken" => $jwtToken
+                        ), REST_Controller::HTTP_OK);
+                    } else {
+                        $this->response(array(
+                            "status" => 0,
+                            "message" => "Login failed. Please contact your service provider.",
+                            "tocken" => $jwtToken
+                        ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                    }
+                } else {
+                    $this->response(array(
+                        "status" => 0,
+                        "message" => "Mobile and password combination did not match."
                     ), REST_Controller::HTTP_NOT_FOUND);
                 }
             } else {
@@ -158,8 +227,7 @@ class Auth extends REST_Controller
 
     public function reset_password_post()
     {
-
-        $id = $this->security->xss_clean($this->input->post("id"));
+        $id = $this->security->xss_clean($this->input->post("userid"));
         if ($id == '') {
             $this->response(array(
                 "status" => 0,
@@ -186,12 +254,12 @@ class Auth extends REST_Controller
                 if (!empty($newpassword) && !empty($newpassword) && !empty($cnfpassword)) {
                     // all values are available
                     $condition = array(
-                        "login_id" => $id,
+                        "userid" => $id,
                     );
 
                     $password = array(
                         "password" => hash('sha512', $newpassword),
-                        "updating" => date("Y-m-d H:i:s"),
+                        "updated_datetime" => date("Y-m-d H:i:s"),
                     );
 
                     $isUpdate = $this->auth_model->update_admin_information($condition, $password);
@@ -243,15 +311,16 @@ class Auth extends REST_Controller
 
     public function change_password_post()
     {
-        
+
         $cnfpass = $this->security->xss_clean($this->input->post("cnf-password"));
 
-        $condition=array('login_id'=>$_SESSION['userInfo']['email']);
-        
+        $condition = array('userid' => $this->session->userdata("userid"));
+
         $information = array(
-            "password" => hash('sha512',$cnfpass),
-            "updating" => date("Y-m-d H:i:s"),
+            "password" => hash('sha512', $cnfpass),
+            "updated_datetime" => date("Y-m-d H:i:s"),
         );
+
         $isUpdate = $this->auth_model->update_admin_information($condition, $information);
         if ($isUpdate) {
             $this->response(array(

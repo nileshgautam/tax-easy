@@ -31,6 +31,24 @@ const selectedURL = () => {
     }
 };
 
+const getCurrentFiscalYear = () => {
+    //get current date
+    var today = new Date();
+
+    //get current month
+    var curMonth = today.getMonth();
+
+    var fiscalYr = "";
+    if (curMonth > 3) { //
+        var nextYr1 = (today.getFullYear() + 1).toString();
+        fiscalYr = today.getFullYear().toString() + "-" + nextYr1.charAt(2) + nextYr1.charAt(3);
+    } else {
+        var nextYr2 = today.getFullYear().toString();
+        fiscalYr = (today.getFullYear() - 1).toString() + "-" + nextYr2.charAt(2) + nextYr2.charAt(3);
+    }
+    return fiscalYr;
+};
+
 $(function () {
     $('.nav-link').click(function () {
         let selectedLink = $(this).attr('href');

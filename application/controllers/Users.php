@@ -10,7 +10,7 @@ class Users extends CI_Controller
 		if (!$this->session->has_userdata('name')) {
 			redirect(base_url());
 		}
-		$this->load->model(array("api/main_model"));
+		$this->load->model(array("api/main_model", "api/common_model"));
 		$this->load->library("pagination");
 		$this->load->helper(array('common'));
 	}
@@ -56,26 +56,29 @@ class Users extends CI_Controller
 
 	public function customers()
 	{
-		
+
 		$data['title'] = "Customers";
 		$this->load->view('admin_ui/layout/header', $data);
 		$this->load->view('admin_ui/layout/nav');
 		$this->load->view('admin_ui/pages/customers');
 		$this->load->view('admin_ui/forms/scripts/customers');
 		$this->load->view('admin_ui/layout/footer');
-
 	}
 
-	public function new_customers()
-	{
-		$data['title'] = "New customers";
-		$this->load->view('admin_ui/layout/header', $data);
-		$this->load->view('admin_ui/layout/nav');
-		$this->load->view('admin_ui/forms/customer');
-		$this->load->view('admin_ui/forms/scripts/customers');
-		$this->load->view('admin_ui/layout/footer');
+	// public function new_customers($id = null)
+	// {
+	// 	$data['title'] = "New customers";
 
-	}
+	// 	if ($id !== null) {
+	// 		$id = base64_decode($id);
+	// 		$data['users'] = $this->common_model->get_data_where('users', array('id' => $id));
+	// 	}
+	// 	$this->load->view('admin_ui/layout/header', $data);
+	// 	$this->load->view('admin_ui/layout/nav');
+	// 	$this->load->view('admin_ui/forms/customer');
+	// 	$this->load->view('admin_ui/forms/scripts/customers');
+	// 	$this->load->view('admin_ui/layout/footer');
+	// }
 
 	public function subadmin()
 	{
@@ -87,9 +90,13 @@ class Users extends CI_Controller
 		$this->load->view('admin_ui/layout/footer');
 	}
 
-	public function subadmin_form()
+	public function subadmin_form($id = null)
 	{
 		$data['title'] = "Sub-admin";
+		if ($id != null) {
+			$id = base64_decode($id);
+			$data['users'] = $this->common_model->get_data_where('users', array('id' => $id));
+		}
 		$this->load->view('admin_ui/layout/header', $data);
 		$this->load->view('admin_ui/layout/nav');
 		$this->load->view('admin_ui/forms/subadmin');
@@ -134,6 +141,48 @@ class Users extends CI_Controller
 		$this->load->view('admin_ui/layout/nav');
 		$this->load->view('admin_ui/pages/services');
 		// $this->load->view('admin_ui/forms/scripts/subadmin');
+		$this->load->view('admin_ui/layout/footer');
+	}
+
+	public function gst()
+	{
+		$data['title'] = "GST Filing";
+		$this->load->view('admin_ui/layout/header', $data);
+		$this->load->view('admin_ui/layout/nav');
+		$this->load->view('admin_ui/pages/gst');
+		$this->load->view('admin_ui/pages/scripts/gst');
+		$this->load->view('admin_ui/layout/footer');
+	}
+
+	public function gst_page($userid = null)
+	{
+		$data['title'] = "GST form";
+		
+		$table = 'users';
+		$conditions['userid'] = base64_decode($userid);
+		$conditions['status'] = true;
+		$conditions['is_deleted'] = false;
+		
+		$data['user'] = $this->common_model->get_data_where($table, $conditions);
+
+		// echo '<pre>';
+		// print_r($data);
+		// die;
+
+		$this->load->view('admin_ui/layout/header', $data);
+		$this->load->view('admin_ui/layout/nav');
+		$this->load->view('admin_ui/forms/gst-page');
+		// $this->load->view('admin_ui/form/scripts/gst-page');
+		$this->load->view('admin_ui/layout/footer');
+	}
+
+	public function itr()
+	{
+		$data['title'] = "services";
+		$this->load->view('admin_ui/layout/header', $data);
+		$this->load->view('admin_ui/layout/nav');
+		$this->load->view('admin_ui/pages/itr');
+		$this->load->view('admin_ui/pages/scripts/itr');
 		$this->load->view('admin_ui/layout/footer');
 	}
 }

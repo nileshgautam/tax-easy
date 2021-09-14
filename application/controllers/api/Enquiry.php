@@ -97,6 +97,62 @@ class Enquiry extends REST_Controller
     }
   }
 
+  public function update_put()
+  {   
+    $password = $this->security->xss_clean($this->input->post("password"));
+    $email = $this->security->xss_clean($this->input->post("email"));
+    $first_name = $this->security->xss_clean($this->input->post("fname"));
+    $last_name = $this->security->xss_clean($this->input->post("lname"));
+    $mobile = $this->security->xss_clean($this->input->post("mobile"));
+
+    $this->form_validation->set_rules("fname", "first name", "required");
+    $this->form_validation->set_rules("password", "Password", "required");
+    $this->form_validation->set_rules("email", "Email", "required");
+
+    // checking form submittion have any error or not
+    if ($this->form_validation->run() === FALSE) {
+      // we have some errors
+      $this->response(array(
+        "status" => 400,
+        "message" => "First name, password and email are required"
+      ), REST_Controller::HTTP_BAD_REQUEST);
+    } else {
+      // Check unique 
+      if ($this->common_model->get_data_where('users', array('email' => $email))) {
+        $this->response(array(
+          "status" => 409,
+          "message" =>  "'".$email. "' is already exists",
+        ), REST_Controller::HTTP_CONFLICT);
+      } else {
+        $userid = $this->main_model->getNewIDorNo('users', "SBA");
+        $formdata = array(
+          'userid' => $userid,
+          'username' => makeuserid($email),
+          'password' => hash('sha512', $password),
+          'first_name' => $first_name,
+          'last_name' => $last_name,
+          'email' => $email,
+          'mobile' => $mobile,
+          'role' => 2,
+          'status' => 1,
+          'created_datetime' => date('Y-m-d h:i:s')
+        );
+        $is_inserted=$this->common_model->insert_data('users', $formdata);
+        if ($is_inserted) {
+          $this->response(array(
+            "status" => 200,
+            "message" => "Created sub-admin."
+          ), REST_Controller::HTTP_OK);
+        } else {
+          $this->response(array(
+            "status" => 500,
+            "message" => "Insertion failure,Internal server error, Please contact your service provider.",
+          ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+      }
+    }
+  }
+
   public function delete_post()
   {
 

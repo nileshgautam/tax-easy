@@ -11,85 +11,6 @@
                         <input class="form-control" type="text" placeholder="Search..">
                     </div>
                 </li>
-                <!-- <li class="nav-item dropdown notification">
-                    <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
-                    <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
-                        <li>
-                            <div class="notification-title"> Notification</div>
-                            <div class="notification-list">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item list-group-item-action active">
-                                        <div class="notification-info">
-                                            <div class="notification-list-user-img"><img src="assets/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                            <div class="notification-list-user-block"><span class="notification-list-user-name">Jeremy Rakestraw</span>accepted your invitation to join the team.
-                                                <div class="notification-date">2 min ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item list-group-item-action">
-                                        <div class="notification-info">
-                                            <div class="notification-list-user-img"><img src="assets/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                            <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
-                                                <div class="notification-date">2 days ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item list-group-item-action">
-                                        <div class="notification-info">
-                                            <div class="notification-list-user-img"><img src="assets/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                            <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
-                                                <div class="notification-date">2 min ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="list-group-item list-group-item-action">
-                                        <div class="notification-info">
-                                            <div class="notification-list-user-img"><img src="assets/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                            <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
-                                                <div class="notification-date">2 min ago</div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="list-footer"> <a href="#">View all notifications</a></div>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown connection">
-                    <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-th"></i> </a>
-                    <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
-                        <li class="connection-list">
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                    <a href="#" class="connection-item"><img src="assets/images/github.png" alt=""> <span>Github</span></a>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                    <a href="#" class="connection-item"><img src="assets/images/dribbble.png" alt=""> <span>Dribbble</span></a>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                    <a href="#" class="connection-item"><img src="assets/images/dropbox.png" alt=""> <span>Dropbox</span></a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                    <a href="#" class="connection-item"><img src="assets/images/bitbucket.png" alt=""> <span>Bitbucket</span></a>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                    <a href="#" class="connection-item"><img src="assets/images/mail_chimp.png" alt=""><span>Mail chimp</span></a>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                    <a href="#" class="connection-item"><img src="assets/images/slack.png" alt=""> <span>Slack</span></a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="conntection-footer"><a href="#">More</a></div>
-                        </li>
-                    </ul>
-                </li> -->
                 <li class="nav-item dropdown nav-user">
                     <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
                     <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
@@ -136,12 +57,12 @@
                         Features
                     </li>
                     <!-- for admin -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-5" aria-controls="submenu-5"><i class="fa fa-fw  fa-user-circle"></i> Enquiry </a>
                         <div id="submenu-5" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo base_url('new-enquiry')?>">New</a>
+                                    <a class="nav-link" href="<?php echo base_url('new-enquiry') ?>">New</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="<?php echo base_url('show-enquiry') ?>">Show All</a>
@@ -149,7 +70,7 @@
 
                             </ul>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fa fa-fw  fa-user-circle"></i> Users </a>
                         <div id="submenu-6" class="collapse submenu">
@@ -168,11 +89,11 @@
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-7" aria-controls="submenu-7"><i class="fas fa-fw fa-file"></i> ITR &nbsp;<small>(Yearly)</small></a>
                         <div id="submenu-7" class="collapse submenu">
                             <ul class="nav flex-column">
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="#">Enquiry</a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">ITR Document
+                                    <a class="nav-link" href="<?php echo base_url('itr-filing')?>">ITR Customers
                                     </a>
                                 </li>
                             </ul>
@@ -182,11 +103,11 @@
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-file"></i> GST &nbsp;<small>(Monthly)</small> </a>
                         <div id="submenu-8" class="collapse submenu" style="">
                             <ul class="nav flex-column">
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="#">Enquiry</a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">GST Document
+                                    <a class="nav-link" href="<?php echo base_url('gst-filing')?>">GST Customers
                                     </a>
                                 </li>
                             </ul>
@@ -207,7 +128,7 @@
                         </div>
                     </li>
                     <!-- For users -->
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-10" aria-controls="submenu-10"><i class="fa fa-fw  fa-user-circle"></i> Services </a>
                         <div id="submenu-10" class="collapse submenu">
                             <ul class="nav flex-column">
@@ -220,7 +141,7 @@
 
                             </ul>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </nav>

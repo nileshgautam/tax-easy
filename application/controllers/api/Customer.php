@@ -1,6 +1,7 @@
 <?php
 
 require APPPATH . 'libraries/REST_Controller.php';
+require APPPATH . 'libraries/CreatorJwt.php';
 
 class Customer extends REST_Controller
 {
@@ -18,6 +19,8 @@ class Customer extends REST_Controller
       redirect(base_url());
     }
   }
+
+
 
   public function index_get()
   {
@@ -42,7 +45,7 @@ class Customer extends REST_Controller
   }
 
   public function insert_post()
-  {   
+  {
     $password = $this->security->xss_clean($this->input->post("password"));
     $email = $this->security->xss_clean($this->input->post("email"));
     $first_name = $this->security->xss_clean($this->input->post("fname"));
@@ -65,12 +68,12 @@ class Customer extends REST_Controller
       if ($this->common_model->get_data_where('users', array('email' => $email))) {
         $this->response(array(
           "status" => 409,
-          "message" =>  "'".$email. "' is already exists",
+          "message" =>  "'" . $email . "' is already exists",
         ), REST_Controller::HTTP_CONFLICT);
-      } else if($this->common_model->get_data_where('users', array('mobile' => $mobile))){
+      } else if ($this->common_model->get_data_where('users', array('mobile' => $mobile))) {
         $this->response(array(
           "status" => 409,
-          "message" =>  "'".$mobile. "' mobile number is already exists.",
+          "message" =>  "'" . $mobile . "' mobile number is already exists.",
         ), REST_Controller::HTTP_CONFLICT);
       } else {
         $userid = $this->main_model->getNewIDorNo('users', "CST");
@@ -86,7 +89,7 @@ class Customer extends REST_Controller
           'status' => 1,
           'created_datetime' => date('Y-m-d h:i:s')
         );
-        $is_inserted=$this->common_model->insert_data('users', $formdata);
+        $is_inserted = $this->common_model->insert_data('users', $formdata);
         if ($is_inserted) {
           $this->response(array(
             "status" => 200,
@@ -102,11 +105,62 @@ class Customer extends REST_Controller
     }
   }
 
+
+  public function update_post()
+  {
+    $id = $this->security->xss_clean($this->input->post("id"));
+    $email = $this->security->xss_clean($this->input->post("email"));
+    $first_name = $this->security->xss_clean($this->input->post("fname"));
+    $last_name = $this->security->xss_clean($this->input->post("lname"));
+    $last_name = $this->security->xss_clean($this->input->post("firm_name"));
+
+    $this->form_validation->set_rules("fname", "first name", "required");
+    $this->form_validation->set_rules("email", "Email", "required");
+
+    // checking form submittion have any error or not
+    if ($this->form_validation->run() === FALSE) {
+      // we have some errors
+      $this->response(array(
+        "status" => 400,
+        "message" => "First name, password and email are required"
+      ), REST_Controller::HTTP_BAD_REQUEST);
+    } else {
+      // Check unique 
+      if ($this->common_model->get_data_where('users', array('email' => $email))) {
+        $this->response(array(
+          "status" => 409,
+          "message" =>  "'" . $email . "' is already exists",
+        ), REST_Controller::HTTP_CONFLICT);
+      } else {
+        $condition = array('id' => $id);
+        $formdata = array(
+          'first_name' => $first_name,
+          'last_name' => $last_name,
+          'email' => $email,
+          'role' => 3,
+          'status' => 1,
+          'update_datetime' => date('Y-m-d h:i:s')
+        );
+        $is_inserted = $this->common_model->update_table('users', $condition, $formdata);
+        if ($is_inserted) {
+          $this->response(array(
+            "status" => 200,
+            "message" => "Updated."
+          ), REST_Controller::HTTP_OK);
+        } else {
+          $this->response(array(
+            "status" => 500,
+            "message" => "updatation failure,Internal server error, Please contact your service provider.",
+          ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+      }
+    }
+  }
+
   public function delete_post()
   {
-
     $id = $this->security->xss_clean($this->input->post("id"));
- 
+
     // checking form submittion have any error or not
     if (!$id) {
       // we have some errors
@@ -116,7 +170,7 @@ class Customer extends REST_Controller
       ), REST_Controller::HTTP_NOT_FOUND);
     } else {
       $condition = array('id' => $id);
-      $res = $this->common_model->update_table('users',array('is_deleted'=>true), $condition);
+      $res = $this->common_model->update_table('users', array('is_deleted' => true), $condition);
       if ($res) {
         $this->response(array(
           "status" => 1,
@@ -130,5 +184,4 @@ class Customer extends REST_Controller
       }
     }
   }
-  
 }

@@ -84,81 +84,24 @@ class Common extends REST_Controller
     }
   }
 
-  public function save_notification_post()
-  {  
-   $notification = $this->security->xss_clean($this->input->post("notification-description"));
-    $this->form_validation->set_rules("notification-description", "Notification", "required");
-    // checking form submittion have any error or not
-    if ($this->form_validation->run() === FALSE) {
-      // we have some errors
-      $this->response(array(
-        "status" => 0,
-        "message" => "Notification description required"
-      ), REST_Controller::HTTP_NOT_FOUND);
-    } else {
-      // Check unique 
-      if ($this->common_model->get_data_where('notification', array('notification' => $notification))) {
-        $this->response(array(
-          "status" => 0,
-          "message" => "Duplicate name not allowed.",
-        ), REST_Controller::HTTP_BAD_REQUEST);
-      } else {
-        $formdata = array(
-          'notification' => $notification,
-          'status' => 1,
-          'createdby' => $this->session->userdata('userid'),
-          'created_datetime' => date('Y-m-d h:i:s')
-        );
-        if ($this->common_model->insert_data('notification', $formdata)) {
-          $this->response(array(
-            "status" => 1,
-            "message" => "Notification added.",
-          ), REST_Controller::HTTP_OK);
-        } else {
-          $this->response(array(
-            "status" => 0,
-            "message" => "Internal server error, Please contact your service provider.",
-          ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
-        }
-      }
-    }
-  }
 
-  public function delete_notification_post()
-  {
-    $id = $this->security->xss_clean($this->input->post("id"));
-    $this->form_validation->set_rules("id", "id", "required");
-    // checking form submittion have any error or not
-    if ($this->form_validation->run() === FALSE) {
-      // we have some errors
-      $this->response(array(
-        "status" => 0,
-        "message" => " id required"
-      ), REST_Controller::HTTP_NOT_FOUND);
-    } else {
-      $condition = array('id' => $id);
-      $res = $this->common_model->delete_from_table('notification', $condition);
-      if ($res) {
-        $this->response(array(
-          "status" => 1,
-          "message" => "Notification deleted",
-        ), REST_Controller::HTTP_OK);
-      } else {
-        $this->response(array(
-          "status" => 0,
-          "message" => $res['message'],
-        ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
-      }
-    }
-  }
 
-  public function notification_get()
+  public function toggle_user_post() // for activate / deactivate
   {
-    $data = $this->common_model->get_data('notification','created_datetime');
+
+    $userid = $this->input->post('id');
+    $value = $this->input->post('status');
+    $value = ($value == "1") ? false : true;
+    $message = ($value == '1') ? 'User successfully activated' : 'User successfully deactivated';
+
+    $condition = array('id' => $userid);
+    $formdata = array('status' => $value);
+
+    $data = $this->common_model->update_table('users', $formdata, $condition);
     if ($data) {
       $this->response(array(
         "status" => 200,
-        "message" => "Data found",
+        "message" => $message,
         'data' => $data,
       ), REST_Controller::HTTP_OK);
     } else {
@@ -166,6 +109,42 @@ class Common extends REST_Controller
         "status" => 404,
         "message" => "Not found",
       ), REST_Controller::HTTP_NOT_FOUND);
+    }
+  }
+
+
+  public function assign_customer_post()
+  {
+    $subamin_id = $this->input->post('subamin_id');
+    $customer_id = $this->input->post('customer_id');
+    $table = 'subadmin_users_relation';
+
+    if (!empty($subamin_id) && !empty($customer_id)) {
+      $condition = array(
+        'customer_id' => $customer_id,
+        'sub_admin_id' => $subamin_id
+      );
+      $is_availble = $this->common_model->get_data_where($table, $condition);
+      if ($is_availble) {
+        $this->response(array(
+          "status" => 409,
+          "message" => "This coustomer is already assigned",
+        ), REST_Controller::HTTP_CONFLICT);
+      } else {
+        $condition['assign_datetime']=date('Y-m-d h:i:s');
+        $data = $this->common_model->insert_data($table, $condition);
+        if ($data) {
+          $this->response(array(
+            "status" => 200,
+            "message" => 'Assigned successfully',
+          ), REST_Controller::HTTP_OK);
+        } else {
+          $this->response(array(
+            "status" => 500,
+            "message" => "Assignment failed please contact your service provider.",
+          ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+      }
     }
   }
 }
