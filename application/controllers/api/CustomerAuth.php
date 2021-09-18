@@ -302,48 +302,48 @@ class CustomerAuth extends REST_Controller
 
     public function updateprofile_post()
     {
-      $userid = $this->security->xss_clean($this->input->post("userid"));
-      $email = $this->security->xss_clean($this->input->post("email"));
-      $name = $this->security->xss_clean($this->input->post("name"));
-      $firm_name = $this->security->xss_clean($this->input->post("firm_name"));
-      $this->form_validation->set_rules("name", "Name", "required");
-      $this->form_validation->set_rules("email", "Email", "required");
-      // checking form submittion have any error or not
-      if ($this->form_validation->run() === FALSE) {
-        // we have some errors
-        $this->response(array(
-          "status" => 400,
-          "message" => "Name and email are required"
-        ), REST_Controller::HTTP_BAD_REQUEST);
-      } else {
-        // Check unique 
-        if ($this->common_model->get_data_where('users', array('email' => $email))) {
-          $this->response(array(
-            "status" => 409,
-            "message" =>  "'" . $email . "' is already exists",
-          ), REST_Controller::HTTP_CONFLICT);
+        $userid = $this->security->xss_clean($this->input->post("userid"));
+        $email = $this->security->xss_clean($this->input->post("email"));
+        $name = $this->security->xss_clean($this->input->post("name"));
+        $firm_name = $this->security->xss_clean($this->input->post("firm-name"));
+        $this->form_validation->set_rules("name", "Name", "required");
+        $this->form_validation->set_rules("email", "Email", "required");
+        // checking form submittion have any error or not
+        if ($this->form_validation->run() === FALSE) {
+            // we have some errors
+            $this->response(array(
+                "status" => 400,
+                "message" => "Name and email are required"
+            ), REST_Controller::HTTP_BAD_REQUEST);
         } else {
-          $condition = array('userid' => $userid);
-          $formdata = array(
-            'first_name' => $name,
-            'email' => $email,
-            'firm_name' => $firm_name,
-            'updated_datetime' => date('Y-m-d h:i:s')
-          );
-          $isUpdate = $this->common_model->update_table('users',$formdata, $condition);
-          if ($isUpdate) {
-            $this->response(array(
-              "status" => 200,
-              "message" => "Updated."
-            ), REST_Controller::HTTP_OK);
-          } else {
-            $this->response(array(
-              "status" => 500,
-              "message" => "updatation failure,Internal server error, Please contact your service provider.",
-            ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
-          }
+            // Check unique 
+            if ($this->common_model->get_data_where('users', array('email' => $email))) {
+                $this->response(array(
+                    "status" => 409,
+                    "message" =>  "'" . $email . "' is already exists",
+                ), REST_Controller::HTTP_CONFLICT);
+            } else {
+                $condition = array('userid' => $userid);
+                $formdata = array(
+                    'first_name' => $name,
+                    'email' => $email,
+                    'firm_name' => $firm_name,
+                    'updated_datetime' => date('Y-m-d h:i:s')
+                );
+                $isUpdate = $this->common_model->update_table('users', $formdata, $condition);
+                if ($isUpdate) {
+                    $this->response(array(
+                        "status" => 200,
+                        "message" => "Updated."
+                    ), REST_Controller::HTTP_OK);
+                } else {
+                    $this->response(array(
+                        "status" => 500,
+                        "message" => "updatation failure,Internal server error, Please contact your service provider.",
+                    ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                }
+            }
         }
-      }
     }
 
     public function change_password_post()
