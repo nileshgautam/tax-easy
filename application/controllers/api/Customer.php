@@ -20,8 +20,6 @@ class Customer extends REST_Controller
     }
   }
 
-
-
   public function index_get()
   {
     $condition['role'] = 3;
@@ -105,16 +103,14 @@ class Customer extends REST_Controller
     }
   }
 
-
   public function update_post()
   {
     $id = $this->security->xss_clean($this->input->post("id"));
     $email = $this->security->xss_clean($this->input->post("email"));
-    $first_name = $this->security->xss_clean($this->input->post("fname"));
-    $last_name = $this->security->xss_clean($this->input->post("lname"));
-    $last_name = $this->security->xss_clean($this->input->post("firm_name"));
+    $first_name = $this->security->xss_clean($this->input->post("name"));
+    $firm_name = $this->security->xss_clean($this->input->post("firm_name"));
 
-    $this->form_validation->set_rules("fname", "first name", "required");
+    $this->form_validation->set_rules("name", "Name", "required");
     $this->form_validation->set_rules("email", "Email", "required");
 
     // checking form submittion have any error or not
@@ -135,8 +131,8 @@ class Customer extends REST_Controller
         $condition = array('id' => $id);
         $formdata = array(
           'first_name' => $first_name,
-          'last_name' => $last_name,
           'email' => $email,
+          'email' => $firm_name,
           'role' => 3,
           'status' => 1,
           'update_datetime' => date('Y-m-d h:i:s')
@@ -184,4 +180,5 @@ class Customer extends REST_Controller
       }
     }
   }
+  
 }

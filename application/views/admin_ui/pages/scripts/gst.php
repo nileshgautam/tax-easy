@@ -31,8 +31,19 @@
             showRow();
         });
     }
+
+    const loadGSTmonth=()=>{
+        let year= new Date();
+    //    console.log(year.getFullYear());
+    }
+
     $(function() {
+
         loadCustomers();
+        loadGSTmonth();
+
+
+
 
         $('body').on('click', '.open-gst', function() {
             let customer_id = $(this).attr('id');
@@ -40,12 +51,16 @@
         });
 
         const today = new Date()
-       month= today.toLocaleString('default', {
+        month = today.toLocaleString('default', {
             month: 'long'
         });
-        console.log(today);
+
+        // console.log(today);
 
 
+        $('body').on('change', '.upload-sale-doc', function() {
+            console.log('sale-doc');
+        });
 
     })
 </script>

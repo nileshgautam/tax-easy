@@ -7,7 +7,7 @@
                                 <div class="col-sm-6">
                                     <h2 class="pageheader-title">GST Administration</h2>
                                 </div>
-                                <!-- <div class="col-sm-6"><a href="<?php //echo base_url('new-customer') ?>" class="btn btn-outline-primary btn-sm float-right">New</a></div> -->
+                    =
                             </div>
                             <div class="page-breadcrumb">
                                 <nav aria-label="breadcrumb">

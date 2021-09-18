@@ -157,13 +157,16 @@ class Users extends CI_Controller
 	public function gst_page($userid = null)
 	{
 		$data['title'] = "GST form";
-		
+
 		$table = 'users';
+		$table2='transaction';
 		$conditions['userid'] = base64_decode($userid);
 		$conditions['status'] = true;
 		$conditions['is_deleted'] = false;
-		
-		$data['user'] = $this->common_model->get_data_where($table, $conditions);
+
+		$data['fy'] = $this->common_model->get_fy();
+		// $data['user'] = $this->common_model->get_data_where($table2, $conditions2);
+		$data['userid'] = $conditions['userid'];
 
 		// echo '<pre>';
 		// print_r($data);
@@ -172,7 +175,7 @@ class Users extends CI_Controller
 		$this->load->view('admin_ui/layout/header', $data);
 		$this->load->view('admin_ui/layout/nav');
 		$this->load->view('admin_ui/forms/gst-page');
-		// $this->load->view('admin_ui/form/scripts/gst-page');
+		$this->load->view('admin_ui/forms/scripts/gst');
 		$this->load->view('admin_ui/layout/footer');
 	}
 

@@ -39,7 +39,8 @@ class Common extends REST_Controller
 
   public function file_post()
   {
-    // print_r($_FILES);die;
+    print_r($_FILES);
+    die;
     $this->load->helper("common");
     $folder = $_POST['flag'] == 1 ? 'category' : 'category_level';
     $result = uploadData($_FILES,  $folder);
@@ -65,9 +66,17 @@ class Common extends REST_Controller
     }
   }
 
+  public function uploadpo_files_post()
+  {
+    echo '<pre>';
+    print_r($_POST);
+    print_r($_FILES);
+
+    die;
+    // $res = 
+  }
   public function removefile_post()
   {
-    // print_r($_POST);
     if ($this->input->post('path')) {
       $res = $this->remove_file($this->input->post('path'));
       if ($res) {
@@ -83,8 +92,6 @@ class Common extends REST_Controller
       }
     }
   }
-
-
 
   public function toggle_user_post() // for activate / deactivate
   {
@@ -131,7 +138,7 @@ class Common extends REST_Controller
           "message" => "This coustomer is already assigned",
         ), REST_Controller::HTTP_CONFLICT);
       } else {
-        $condition['assign_datetime']=date('Y-m-d h:i:s');
+        $condition['assign_datetime'] = date('Y-m-d h:i:s');
         $data = $this->common_model->insert_data($table, $condition);
         if ($data) {
           $this->response(array(

@@ -30,24 +30,46 @@ const selectedURL = () => {
         }
     }
 };
-
+// Function will be return current financial year
 const getCurrentFiscalYear = () => {
     //get current date
     var today = new Date();
-
     //get current month
     var curMonth = today.getMonth();
-
     var fiscalYr = "";
     if (curMonth > 3) { //
         var nextYr1 = (today.getFullYear() + 1).toString();
-        fiscalYr = today.getFullYear().toString() + "-" + nextYr1.charAt(2) + nextYr1.charAt(3);
+        fiscalYr = today.getFullYear().toString() + "-" +nextYr1.charAt(0)+ +nextYr1.charAt(1)+nextYr1.charAt(2) + nextYr1.charAt(3);
     } else {
         var nextYr2 = today.getFullYear().toString();
-        fiscalYr = (today.getFullYear() - 1).toString() + "-" + nextYr2.charAt(2) + nextYr2.charAt(3);
+        fiscalYr = (today.getFullYear() - 1).toString() + "-" +nextYr1.charAt(0)+ +nextYr1.charAt(1)+ + nextYr2.charAt(2) + nextYr2.charAt(3);
     }
     return fiscalYr;
 };
+// Function to get selected gst month array
+const get_month = (fy) => {
+    let finY = fy.split('-');
+    let cy = finY[0];
+    let jfm = finY[0].charAt(0) + finY[0].charAt(1) + finY[1];
+    let fyarr = [`apr-${cy}`, `may-${cy}`, `jun-${cy}`, `july-${cy}`, `aug-${cy}`, `sept-${cy}`, `oct-${cy}`, `nov-${cy}`, `dec-${cy}`, `jan-${jfm}`, `feb-${jfm}`, `march-${jfm}`];
+
+    return fyarr;
+}
+
+function capitalize(input) {
+    var CapitalizeWords = input[0].toUpperCase();
+    for (var i = 1; i <= input.length - 1; i++) {
+        let currentCharacter,
+            previousCharacter = input[i - 1];
+        if (previousCharacter && previousCharacter == ' ') {
+            currentCharacter = input[i].toUpperCase();
+        } else {
+            currentCharacter = input[i];
+        }
+        CapitalizeWords = CapitalizeWords + currentCharacter;
+    }
+    return CapitalizeWords;
+}
 
 $(function () {
     $('.nav-link').click(function () {

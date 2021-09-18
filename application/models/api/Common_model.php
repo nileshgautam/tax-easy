@@ -47,12 +47,13 @@ class Common_model extends CI_Model
   {
     $this->db->where($condition);
 
-    $res=$this->db->update($tableName, $data);
-    print_r($res);die;
+    $res = $this->db->update($tableName, $data);
+    print_r($res);
+    die;
 
     return $this->db->affected_rows() ? TRUE : FALSE;
   }
-  
+
   public function delete_from_table($tableName = null, $condition = null)
   {
     try {
@@ -77,7 +78,8 @@ class Common_model extends CI_Model
       $db_error = $this->db->error();
       if (!empty($db_error)) {
         throw new Exception('Database error! Error Code [' . $db_error['code'] . '] Error: ' . $db_error['message']);
-        print_r($db_error);die;
+        print_r($db_error);
+        die;
         return $db_error; // unreachable retrun statement !!!
       } else {
         return TRUE;
@@ -86,5 +88,11 @@ class Common_model extends CI_Model
       log_message('error: ', $e->getMessage());
       return $db_error;
     }
+  }
+
+  public function get_fy()
+  {
+    $res = $this->db->query("SELECT fy FROM transaction")->result_array();
+    return ($res != false) ? $res : false;
   }
 }
