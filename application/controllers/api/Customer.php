@@ -24,15 +24,21 @@ class Customer extends REST_Controller
   {
     $condition['role'] = 3;
     $condition['is_deleted'] = 0;
-    $subadmin = $this->common_model->get_data_where(
-      'users',
-      $condition
-    );
-    if ($subadmin) {
+    $this->session->userdata('role');
+    if($this->session->userdata('role')==1){
+      $customer = $this->common_model->get_data_where(
+        'users',
+        $condition
+      );
+    }else{
+      $customer = $this->common_model->get_subadmin_customer($this->session->userdata('userid'));
+    }
+  
+    if ($customer) {
       $this->response(array(
         "status" => 200,
         "message" => "success",
-        'data' => $subadmin,
+        'data' => $customer,
       ), REST_Controller::HTTP_OK);
     } else {
       $this->response(array(

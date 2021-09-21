@@ -8,7 +8,6 @@
         display: inline-block;
         cursor: pointer;
     }
-
     label {
         font-size: 12px;
     }
@@ -25,10 +24,6 @@
 
     .upload-btn-wrapper input[type=file] {
         font-size: 12px;
-        /* position: absolute;
-        left: 0;
-        top: 0;
-        opacity: 0; */
     }
 </style>
 <div class="row">

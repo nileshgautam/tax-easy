@@ -156,29 +156,26 @@ class Users extends CI_Controller
 
 	public function gst_page($userid = null)
 	{
-		$data['title'] = "GST form";
 
+		$data['title'] = "GST form";
 		$table = 'users';
-		$table2='transaction';
+		$table2 = 'transaction';
 		$conditions['userid'] = base64_decode($userid);
 		$conditions['status'] = true;
 		$conditions['is_deleted'] = false;
-
 		$data['fy'] = $this->common_model->get_fy();
-		// $data['user'] = $this->common_model->get_data_where($table2, $conditions2);
-		$data['userid'] = $conditions['userid'];
+		$data['user'] = $this->common_model->get_data_where($table, $conditions);
+		$data['gst_history'] = json_encode($this->common_model->get_data_where($table2, array('customer_id' => $conditions['userid'])));
 
-		// echo '<pre>';
-		// print_r($data);
-		// die;
+		$data['userid'] = $conditions['userid'];
 
 		$this->load->view('admin_ui/layout/header', $data);
 		$this->load->view('admin_ui/layout/nav');
 		$this->load->view('admin_ui/forms/gst-page');
-		$this->load->view('admin_ui/forms/scripts/gst');
+		$this->load->view('admin_ui/forms/scripts/gst', $data);
 		$this->load->view('admin_ui/layout/footer');
 	}
-
+	// Customer page for itr history
 	public function itr()
 	{
 		$data['title'] = "services";
@@ -186,6 +183,37 @@ class Users extends CI_Controller
 		$this->load->view('admin_ui/layout/nav');
 		$this->load->view('admin_ui/pages/itr');
 		$this->load->view('admin_ui/pages/scripts/itr');
+		$this->load->view('admin_ui/layout/footer');
+	}
+	// Customer page for itr history
+	public function itr_page($userid = null)
+	{
+		$data['title'] = "ITR form";
+		$table = 'users';
+		$conditions['userid'] = base64_decode($userid);
+		$data['fy'] = $this->common_model->get_fy();
+		$data['user'] = $this->common_model->get_data_where($table, $conditions);
+		$data['userid'] = $userid;
+		$this->load->view('admin_ui/layout/header', $data);
+		$this->load->view('admin_ui/layout/nav');
+		$this->load->view('admin_ui/pages/customer-itr');
+		$this->load->view('admin_ui/pages/scripts/itr', $data);
+		$this->load->view('admin_ui/layout/footer');
+	}
+
+	// Customer page for itr history
+	public function itr_form($userid = null)
+	{
+		$data['title'] = "ITR form";
+		$table = 'users';
+		$conditions['userid'] = base64_decode($userid);
+		$data['fy'] = $this->common_model->get_fy();
+		$data['user'] = $this->common_model->get_data_where($table, $conditions);
+		$data['userid'] = $userid;
+		$this->load->view('admin_ui/layout/header', $data);
+		$this->load->view('admin_ui/layout/nav');
+		$this->load->view('admin_ui/forms/customer-itr-form');
+		$this->load->view('admin_ui/pages/scripts/itr', $data);
 		$this->load->view('admin_ui/layout/footer');
 	}
 }

@@ -35,6 +35,27 @@
 <!-- ============================================================== -->
 <!-- left sidebar -->
 <!-- ============================================================== -->
+
+<?php
+$role = $this->session->userdata('role');
+$permission = json_decode($this->session->userdata('permission'), true);
+$show="display:none";
+$showITR = "display:none";
+$showGST = "display:none";
+if ($role == 1) {
+    $show="display:block";
+    $showITR = "display:block";
+    $showGST = "display:block";
+} else {
+    if ($permission[0]['itr'] == 'true') {
+        $showITR = "display:block";
+    }
+    if ($permission[1]['gst'] == 'true') {
+        $showGST = "display:block";
+    }
+}
+?>
+
 <div class="nav-left-sidebar sidebar-dark">
     <div class="menu-list">
         <nav class="navbar navbar-expand-lg navbar-light">
@@ -71,7 +92,7 @@
                             </ul>
                         </div>
                     </li> -->
-                    <li class="nav-item">
+                    <li class="nav-item" style="<?php echo $show?>">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-6" aria-controls="submenu-6"><i class="fa fa-fw  fa-user-circle"></i> Users </a>
                         <div id="submenu-6" class="collapse submenu">
                             <ul class="nav flex-column">
@@ -85,35 +106,35 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="<?php echo $showITR?>">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-7" aria-controls="submenu-7"><i class="fas fa-fw fa-file"></i> ITR &nbsp;<small>(Yearly)</small></a>
                         <div id="submenu-7" class="collapse submenu">
                             <ul class="nav flex-column">
                                 <!-- <li class="nav-item">
                                     <a class="nav-link" href="#">Enquiry</a>
                                 </li> -->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo base_url('itr-filing')?>">ITR Customers
+                                <li class="nav-item" >
+                                    <a class="nav-link" href="<?php echo base_url('itr-filing') ?>">ITR Customers
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="<?php echo $showGST?>">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-file"></i> GST &nbsp;<small>(Monthly)</small> </a>
-                        <div id="submenu-8" class="collapse submenu" style="">
+                        <div id="submenu-8" class="collapse submenu" >
                             <ul class="nav flex-column">
                                 <!-- <li class="nav-item">
                                     <a class="nav-link" href="#">Enquiry</a>
                                 </li> -->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo base_url('gst-filing')?>">GST Customers
+                                <li class="nav-item" >
+                                    <a class="nav-link" href="<?php echo base_url('gst-filing') ?>">GST Customers
                                     </a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="<?php echo $show?>">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-9" aria-controls="submenu-9"><i class="fas fa-fw fa-bell"></i>Notification</small> </a>
                         <div id="submenu-9" class="collapse submenu">
                             <ul class="nav flex-column">

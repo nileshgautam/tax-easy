@@ -34,15 +34,10 @@ function uploadData($arr = null, $path = null)
         return json_encode(array('status' => 404));
     }
 }
-
-
 function uploadFile($arr = null, $path = null)
 {
     // Count total files
     $countfiles = count($arr['files']['name']);
-    // print_r($arr['files']['name']);
-    // print_r($countfiles);
-    // die;
     // Upload directory
     $upload_location = "uploads/";
     $dirName = $upload_location . $path;
@@ -57,6 +52,7 @@ function uploadFile($arr = null, $path = null)
     for ($index = 0; $index < $countfiles; $index++) {
         // File name
         $filename = $arr['files']['name'][$index];
+        $ftitle=$arr['files']['name'][$index];
         // Get extension
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
         // Valid image extension
@@ -71,7 +67,9 @@ function uploadFile($arr = null, $path = null)
             $file_path = $dirName . '/' . $filename;
             // Upload file
             if (move_uploaded_file($arr['files']['tmp_name'][$index], $file_path)) {
-                $files_arr[] = $file_path;
+                $item['title']=$ftitle;
+                $item['path']=$file_path;
+                $files_arr[] = $item;
             }
         }
     }
@@ -79,8 +77,6 @@ function uploadFile($arr = null, $path = null)
     return  json_encode($files_arr);
     // die;
 }
-
-
 // function to makeuserid
 function makeuserid($useremail)
 {
@@ -91,3 +87,4 @@ function makeuserid($useremail)
     }
     return $user_id;
 }
+?>

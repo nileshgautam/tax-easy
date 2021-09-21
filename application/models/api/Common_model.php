@@ -48,9 +48,7 @@ class Common_model extends CI_Model
     $this->db->where($condition);
 
     $res = $this->db->update($tableName, $data);
-    print_r($res);
-    die;
-
+ 
     return $this->db->affected_rows() ? TRUE : FALSE;
   }
 
@@ -93,6 +91,13 @@ class Common_model extends CI_Model
   public function get_fy()
   {
     $res = $this->db->query("SELECT fy FROM transaction")->result_array();
+    return ($res != false) ? $res : false;
+  }
+
+  public function get_subadmin_customer($subadminid = null)
+  {
+    $query = "SELECT users.id,users.userid,users.username,users.avatar,users.first_name,users.email,users.mobile,users.last_name,users.status,subadmin_users_relation.sub_admin_id FROM `subadmin_users_relation` LEFT JOIN users on users.userid=subadmin_users_relation.customer_id WHERE subadmin_users_relation.sub_admin_id='$subadminid' AND users.role='3' AND users.is_deleted=false ";
+    $res = $this->db->query($query)->result_array();
     return ($res != false) ? $res : false;
   }
 }

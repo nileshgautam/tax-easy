@@ -25,7 +25,6 @@
         let siteUrl = BASEURL + 'api/Customer/';
         $.get(siteUrl).done(function(data) {
             let dataArr = data.data;
-            console.log(dataArr)
             showRow(dataArr);
         }).fail(function(jqxhr, data) {
             showRow();
@@ -41,13 +40,9 @@
 
         loadCustomers();
         loadGSTmonth();
-
-
-
-
         $('body').on('click', '.open-gst', function() {
             let customer_id = $(this).attr('id');
-            window.location.href = BASEURL + 'Users/gst_page/' + btoa(customer_id);
+            window.location.href = BASEURL + 'Users/gst_page/' +btoa( customer_id);
         });
 
         const today = new Date()

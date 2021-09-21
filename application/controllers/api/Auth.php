@@ -75,7 +75,9 @@ class Auth extends REST_Controller
                             'userid' => $isValid[0]['userid'],
                             'avatar' => $isValid[0]['avatar'],
                             'name' => $isValid[0]['username'],
+                            'permission' => $isValid[0]['access_control'],
                             'email' => $isValid[0]['email'],
+                            'role' => $isValid[0]['role'],
                             'auth_key' => $jwtToken
                         );
 

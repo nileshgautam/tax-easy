@@ -73,7 +73,7 @@ class Subadmin extends REST_Controller
           "message" =>  "'" . $mobile . "' mobile number is already exists.",
         ), REST_Controller::HTTP_CONFLICT);
       } else {
-        $userid = $this->main_model->getNewIDorNo('users', "CST");
+        $userid = $this->main_model->getNewIDorNo('users', "SBA");
         $formdata = array(
           'userid' => $userid,
           'username' => makeuserid($email),
@@ -185,6 +185,24 @@ class Subadmin extends REST_Controller
           "message" => $res['message'],
         ), REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
       }
+    }
+  }
+
+  public function get_permission_post()
+  {
+    $userid = $this->input->post('userid');
+    $res = $this->common_model->get_data_where('users', array('id' => $userid));
+    if ($res) {
+      $this->response(array(
+        "status" => 200,
+        "message" => "success",
+        "data" => $res[0]['access_control'],
+      ), REST_Controller::HTTP_OK);
+    } else {
+      $this->response(array(
+        "status" => 404,
+        "message" => 'User not found.',
+      ), REST_Controller::HTTP_NOT_FOUND);
     }
   }
 }
