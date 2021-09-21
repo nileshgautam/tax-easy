@@ -120,20 +120,18 @@ if ($role == 1) {
                             </ul>
                         </div>
                     </li>
-                    <li class="nav-item" style="<?php echo $showGST?>">
+                    <!-- <li class="nav-item" style="<?php echo $showGST?>">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-8" aria-controls="submenu-8"><i class="fas fa-fw fa-file"></i> GST &nbsp;<small>(Monthly)</small> </a>
                         <div id="submenu-8" class="collapse submenu" >
                             <ul class="nav flex-column">
-                                <!-- <li class="nav-item">
-                                    <a class="nav-link" href="#">Enquiry</a>
-                                </li> -->
+                               
                                 <li class="nav-item" >
                                     <a class="nav-link" href="<?php echo base_url('gst-filing') ?>">GST Customers
                                     </a>
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item" style="<?php echo $show?>">
                         <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-9" aria-controls="submenu-9"><i class="fas fa-fw fa-bell"></i>Notification</small> </a>
                         <div id="submenu-9" class="collapse submenu">

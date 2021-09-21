@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 14, 2021 at 11:12 PM
+-- Generation Time: Sep 21, 2021 at 09:33 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.2.32
 
@@ -149,7 +149,8 @@ CREATE TABLE `subadmin_users_relation` (
 --
 
 INSERT INTO `subadmin_users_relation` (`id`, `customer_id`, `sub_admin_id`, `status`, `assign_datetime`, `updated_datetime`) VALUES
-(1, 'CST210911015', 'CST210911014', 1, '2021-09-11 10:45:32', '0000-00-00 00:00:00');
+(3, 'CST210920020', 'CST210919002', 1, '2021-09-20 01:48:54', '0000-00-00 00:00:00'),
+(4, 'CST210920021', 'CST210919002', 1, '2021-09-22 12:21:46', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -160,10 +161,14 @@ INSERT INTO `subadmin_users_relation` (`id`, `customer_id`, `sub_admin_id`, `sta
 CREATE TABLE `transaction` (
   `id` int(11) NOT NULL,
   `transactionid` varchar(20) NOT NULL COMMENT 'transactionid will generate manualy',
-  `financial_year_month` varchar(20) NOT NULL COMMENT 'if ITR then financial_year else if GST then month_year',
+  `financial_year_month` varchar(20) DEFAULT NULL COMMENT 'if ITR then financial_year else if GST then month_year',
+  `fy` varchar(15) NOT NULL,
   `service_type` text NOT NULL COMMENT 'GST, and ITR',
   `customer_id` varchar(20) NOT NULL,
-  `douments` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'will be accept document array',
+  `douments` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'will be accept document array',
+  `sales_document` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`sales_document`)),
+  `purchage_document` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`purchage_document`)),
+  `return_calculation` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`return_calculation`)),
   `acknowledge_document` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'upload final document when done.(will be accept document array)',
   `payment` tinyint(1) NOT NULL DEFAULT 0 COMMENT '1-payment done, 0-pending',
   `uploaded_date_time` datetime NOT NULL,
@@ -208,13 +213,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `userid`, `username`, `password`, `role`, `access_control`, `email`, `mobile`, `first_name`, `firm_name`, `last_name`, `avatar`, `auth_key`, `created_datetime`, `updated_datetime`, `otp`, `last_login`, `status`, `is_deleted`) VALUES
-(1, 'AD001', 'John doe', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', 1, NULL, 'admin@admin.com', '9874563210', 'Admin', NULL, '', '', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Ijk4NzQ1NjMyMTAiLCJ0aW1lU3RhbXAiOiIyMDIxLTA5LTE1IDAyOjMxOjEzIn0.KYQsTl1vALDUP1w3Lbx4U4Q-FJnk7BO8R06-v3vYZbU', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '2021-09-15 02:31:13', 1, 0),
-(17, 'CST210915017', 'u-user', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', 3, NULL, 'user@user.com', '987456321', 'Rohit', NULL, 'Sharma', '', '', '2021-09-15 02:31:41', '0000-00-00 00:00:00', '', NULL, 1, 0),
-(15, 'CST210911015', 'u-in', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', 3, NULL, 'in@mail.com', '74563218908', 'Ni', NULL, 'IN', '', '', '2021-09-11 05:11:48', '0000-00-00 00:00:00', '', NULL, 1, 0),
-(14, 'CST210911014', 'u-anil', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', 2, NULL, 'anil@mail.com', '8527419631', 'Anil', NULL, 'bhagel', '', '', '2021-09-11 04:08:00', '0000-00-00 00:00:00', '', NULL, 1, 0),
-(16, 'CST210915016', 'u-example', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', 2, NULL, 'example@mail.com', '9877777777', 'mohit', NULL, 'singh', '', '', '2021-09-15 01:48:20', '0000-00-00 00:00:00', '', NULL, 1, 0),
-(13, 'SBA210911013', 'u-rajendra', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', 2, NULL, 'rajendra@mail.com', '8527419630', 'Rajendra', NULL, 'mishra', '', '', '2021-09-11 04:04:03', '0000-00-00 00:00:00', '', NULL, 1, 0),
-(12, 'CST210911002', 'u-mohit', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', 3, NULL, 'mohit@mail.com', '9874563211', 'Mohit', NULL, 'Singh', '', '', '2021-09-11 03:55:56', '0000-00-00 00:00:00', '', NULL, 1, 0);
+(1, 'AD001', 'John doe', 'c7ad44cbad762a5da0a452f9e854fdc1e0e7a52a38015f23f3eab1d80b931dd472634dfac71cd34ebc35d16ab7fb8a90c81f975113d6c7538dc69dd8de9077ec', 1, NULL, 'admin@admin.com', '9874563210', 'Admin', NULL, '', '', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInRpbWVTdGFtcCI6IjIwMjEtMDktMjIgMTI6MjA6MzMifQ.LmuhVB22kc9tVTGCz5la0P85DrKOFbLyFoc0ytLpn2Q', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0', '2021-09-22 00:20:33', 1, 0),
+(20, 'CST210920020', 'u-user', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', 3, NULL, 'user@user.com', '987456321', 'Rohit', NULL, '', '', '', '2021-09-20 01:40:26', '0000-00-00 00:00:00', '', NULL, 0, 0),
+(21, 'CST210920021', 'u-user1', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', 3, NULL, 'user1@user.com', '987456322', 'Govind', '', 'Singh', '', '', '2021-09-20 01:41:05', '0000-00-00 00:00:00', '', NULL, 0, 0),
+(19, 'CST210919002', 'u-mohit', 'ba3253876aed6bc22d4a6ff53d8406c6ad864195ed144ab5c87621b6c233b548baeae6956df346ec8c17f5ea10f35ee3cbc514797ed7ddd3145464e2a0bab413', 2, '[{\"itr\":\"true\"},{\"gst\":\"true\"}]', 'mohit@mail.com', '9874563211', 'Mohit', NULL, 'Singh', '', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1vaGl0QG1haWwuY29tIiwidGltZVN0YW1wIjoiMjAyMS0wOS0yMiAxMjoyMzowMSJ9.b8YQfqY2FfHgGapnZ4JSzSUBYxiigj5ZSDJFmrhpI0M', '2021-09-19 10:02:41', '0000-00-00 00:00:00', '420598', '2021-09-22 00:23:01', 1, 0);
 
 --
 -- Indexes for dumped tables
@@ -308,19 +310,19 @@ ALTER TABLE `services`
 -- AUTO_INCREMENT for table `subadmin_users_relation`
 --
 ALTER TABLE `subadmin_users_relation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
